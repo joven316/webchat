@@ -416,7 +416,11 @@ services:
       redis:
         condition: service_healthy
     healthcheck:
-      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/api/health')"]
+      # Match the image healthcheck (docker/Dockerfile.api): liveness endpoint
+      # with no dependency I/O, plus a client timeout so a hung request fails
+      # fast instead of being killed at Docker's 5s timeout. Readiness gating
+      # belongs to deploy.sh / orchestration (/api/health/ready), not liveness.
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/api/health/live', timeout=4)"]
       interval: 10s
       timeout: 5s
       retries: 5
