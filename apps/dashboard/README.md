@@ -42,7 +42,7 @@ The dashboard therefore keeps **all browser API calls same-origin** under
   This is the origin the _browser_ calls (in production: the dashboard's own
   origin, so requests stay same-origin).
 - `next.config.ts` — `next.config.ts` rewrites `/api/:path*` → `${BACKEND_ORIGIN}/api/:path*`
-  where `BACKEND_ORIGIN = NEXT_PUBLIC_BACKEND_API_URL ?? 'https://webchat-ai-production-7e84.up.railway.app'`.
+  where `BACKEND_ORIGIN = NEXT_PUBLIC_BACKEND_API_URL ?? 'https://webchat-ai-production-becf.up.railway.app'`.
   This destination is deliberately independent of `NEXT_PUBLIC_API_URL`: it is
   the origin the _server_ forwards to (see ADR-003 in
   [docs/07-Architecture-Decisions.md](../../docs/07-Architecture-Decisions.md)).
@@ -105,7 +105,7 @@ development.
 | Variable                          | Default                                             | Purpose                                                                                |
 | --------------------------------- | --------------------------------------------------- | -------------------------------------------------------------------------------------- |
 | `NEXT_PUBLIC_API_URL`             | `http://localhost:8000`                             | Backend API base URL the **browser** calls (same-origin in prod: the dashboard origin) |
-| `NEXT_PUBLIC_BACKEND_API_URL`     | `https://webchat-ai-production-7e84.up.railway.app` | Backend origin the **server** proxies `/api/*` to                                      |
+| `NEXT_PUBLIC_BACKEND_API_URL`     | `https://webchat-ai-production-becf.up.railway.app` | Backend origin the **server** proxies `/api/*` to                                      |
 | `NEXT_PUBLIC_SITE_URL`            | `https://webchatai.com`                             | Canonical origin for SEO metadata (`src/lib/site.ts`)                                  |
 | `NEXT_PUBLIC_REFRESH_COOKIE_NAME` | `refresh_token`                                     | Refresh cookie name checked by middleware                                              |
 | `NEXT_PUBLIC_CSRF_COOKIE_NAME`    | `csrf_token`                                        | CSRF cookie name checked by middleware                                                 |

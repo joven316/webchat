@@ -13,7 +13,7 @@
 #   bakes this at build time; browser requests stay same-origin and the
 #   Next.js rewrite proxies /api/* to Railway.
 #   Repo variable VITE_WIDGET_API_BASE_URL must hold the PUBLIC Railway API
-#   origin (e.g. https://webchat-ai-production-7e84.up.railway.app).
+#   origin (e.g. https://webchat-ai-production-becf.up.railway.app).
 #
 # Deploy environment:
 #   Requires SSH access to the deploy host (secrets SSH_HOST / SSH_USER /
@@ -103,6 +103,8 @@ jobs:
           platforms: linux/amd64
           push: true
           tags: ${{ steps.tags.outputs.api_tags }}
+          build-args: |
+            DEBIAN_SECURITY_REFRESH=${{ github.run_id }}
           cache-from: type=gha,scope=webchat-api
           cache-to: type=gha,mode=max,scope=webchat-api
 
@@ -114,6 +116,8 @@ jobs:
           platforms: linux/amd64
           push: true
           tags: ${{ steps.tags.outputs.worker_tags }}
+          build-args: |
+            DEBIAN_SECURITY_REFRESH=${{ github.run_id }}
           cache-from: type=gha,scope=webchat-worker
           cache-to: type=gha,mode=max,scope=webchat-worker
 

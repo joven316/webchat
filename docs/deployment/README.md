@@ -18,7 +18,7 @@ flowchart LR
     end
 
     subgraph RAILWAY["Railway"]
-        API["API — FastAPI uvicorn<br/>https://webchat-ai-production-7e84.up.railway.app"]
+        API["API — FastAPI uvicorn<br/>https://webchat-ai-production-becf.up.railway.app"]
         WORKER["Worker — ARQ + crawler<br/>(no public HTTP)"]
     end
 
@@ -67,12 +67,12 @@ Railway using `NEXT_PUBLIC_BACKEND_API_URL`. The Dashboard build-time origin
 | Variable                        | Production value                                                  | Purpose                                             |
 | ------------------------------- | ----------------------------------------------------------------- | --------------------------------------------------- |
 | `NEXT_PUBLIC_API_URL`           | `https://webchat-ai-dashboard.vercel.app`                         | Origin the **browser** calls (same-origin `/api/*`) |
-| `NEXT_PUBLIC_BACKEND_API_URL`   | `https://webchat-ai-production-7e84.up.railway.app`               | Origin the Dashboard **server** proxies to          |
-| `VITE_WIDGET_API_BASE_URL`      | `https://webchat-ai-production-7e84.up.railway.app`               | Widget API base baked into the widget bundle        |
-| `WIDGET_API_BASE_URL` (backend) | `https://webchat-ai-production-7e84.up.railway.app`               | Runtime `data-api-base-url` in embed snippets       |
+| `NEXT_PUBLIC_BACKEND_API_URL`   | `https://webchat-ai-production-becf.up.railway.app`               | Origin the Dashboard **server** proxies to          |
+| `VITE_WIDGET_API_BASE_URL`      | `https://webchat-ai-production-becf.up.railway.app`               | Widget API base baked into the widget bundle        |
+| `WIDGET_API_BASE_URL` (backend) | `https://webchat-ai-production-becf.up.railway.app`               | Runtime `data-api-base-url` in embed snippets       |
 | `WIDGET_SCRIPT_URL` (backend)   | `https://webchat-ai-widget.vercel.app/webchat-widget.iife.min.js` | Widget bundle URL in embed snippets                 |
 | `CORS_ORIGINS` (backend)        | `["https://webchat-ai-dashboard.vercel.app"]`                     | Backend CORS allow-list                             |
-| `ALLOWED_HOSTS` (backend)       | `webchat-ai-production-7e84.up.railway.app`                       | Trusted `Host` headers (API)                        |
+| `ALLOWED_HOSTS` (backend)       | `webchat-ai-production-becf.up.railway.app`                       | Trusted `Host` headers (API)                        |
 
 ### Auth / cookie model (ADR-003)
 
@@ -98,17 +98,17 @@ Set the following **environment variables** in the Vercel project settings
 | Variable                        | Production value                                                  |
 | ------------------------------- | ----------------------------------------------------------------- |
 | `NEXT_PUBLIC_API_URL`           | `https://webchat-ai-dashboard.vercel.app`                         |
-| `NEXT_PUBLIC_BACKEND_API_URL`   | `https://webchat-ai-production-7e84.up.railway.app`               |
+| `NEXT_PUBLIC_BACKEND_API_URL`   | `https://webchat-ai-production-becf.up.railway.app`               |
 | `NEXT_PUBLIC_SITE_URL`          | `https://webchat-ai-dashboard.vercel.app`                         |
 | `NEXT_PUBLIC_WIDGET_SCRIPT_URL` | `https://webchat-ai-widget.vercel.app/webchat-widget.iife.min.js` |
-| `NEXT_PUBLIC_WIDGET_API_URL`    | `https://webchat-ai-production-7e84.up.railway.app/api/widget/v1` |
+| `NEXT_PUBLIC_WIDGET_API_URL`    | `https://webchat-ai-production-becf.up.railway.app/api/widget/v1` |
 | `NEXT_PUBLIC_DASHBOARD_URL`     | `https://webchat-ai-dashboard.vercel.app`                         |
 
 **Widget:**
 
 | Variable                   | Production value                                    |
 | -------------------------- | --------------------------------------------------- |
-| `VITE_WIDGET_API_BASE_URL` | `https://webchat-ai-production-7e84.up.railway.app` |
+| `VITE_WIDGET_API_BASE_URL` | `https://webchat-ai-production-becf.up.railway.app` |
 
 ### Railway (API + Worker)
 
@@ -119,7 +119,7 @@ Railway deploys the Docker images built from `docker/Dockerfile.api` and
 
 - Command: `uvicorn backend.main:app --host 0.0.0.0 --port ${PORT:-8000}`
   (`docker/Dockerfile.api` already respects the Railway-injected `PORT`).
-- Health check: `https://webchat-ai-production-7e84.up.railway.app/api/health/live`
+- Health check: `https://webchat-ai-production-becf.up.railway.app/api/health/live`
   for liveness; `/api/health/ready` for readiness (fail-closed 503).
 - Set `TRUST_PROXY=true` (Railway is a trusted proxy) and the public
   `ALLOWED_HOSTS`.
@@ -146,7 +146,7 @@ TRUST_PROXY=true
 RATE_LIMIT_ENABLED=true
 PUBLIC_BASE_URL=https://webchat-ai-dashboard.vercel.app
 CORS_ORIGINS=["https://webchat-ai-dashboard.vercel.app"]
-ALLOWED_HOSTS=webchat-ai-production-7e84.up.railway.app
+ALLOWED_HOSTS=webchat-ai-production-becf.up.railway.app
 JWT_SECRET=<real >=32-byte secret>
 MONGODB_URI=<authenticated Atlas URI>
 MONGODB_DB=webchat_ai
@@ -155,7 +155,7 @@ RESEND_API_KEY=<real key>
 EMAIL_FROM=<verified custom-domain sender>
 GEMINI_API_KEY=<real key>
 PAYMENT_PROVIDER=razorpay            # or stripe, with matching keys
-WIDGET_API_BASE_URL=https://webchat-ai-production-7e84.up.railway.app
+WIDGET_API_BASE_URL=https://webchat-ai-production-becf.up.railway.app
 WIDGET_SCRIPT_URL=https://webchat-ai-widget.vercel.app/webchat-widget.iife.min.js
 SUPER_ADMIN_EMAILS=["<your email>"]
 ```
@@ -190,7 +190,7 @@ Public build-time configuration lives in GitHub repository **Variables**
 | Variable                   | Value                                               | Why CI needs it                               | Visibility |
 | -------------------------- | --------------------------------------------------- | --------------------------------------------- | ---------- |
 | `NEXT_PUBLIC_API_URL`      | `https://webchat-ai-dashboard.vercel.app`           | Dashboard Docker build gate (CI + CD publish) | public     |
-| `VITE_WIDGET_API_BASE_URL` | `https://webchat-ai-production-7e84.up.railway.app` | Widget Docker build gate (CI + CD publish)    | public     |
+| `VITE_WIDGET_API_BASE_URL` | `https://webchat-ai-production-becf.up.railway.app` | Widget Docker build gate (CI + CD publish)    | public     |
 
 Optional Dashboard embed origins (only required when the dashboard/embed generates snippets
 in CI builds — the app derives sensible defaults, so they are optional):
@@ -199,9 +199,9 @@ in CI builds — the app derives sensible defaults, so they are optional):
 | ------------------------------- | ----------------------------------------------------------------- | ------------------------------------------------------ | ---------- |
 | `NEXT_PUBLIC_SITE_URL`          | `https://webchat-ai-dashboard.vercel.app`                         | derived embed/SEO origins (optional)                   | public     |
 | `NEXT_PUBLIC_WIDGET_SCRIPT_URL` | `https://webchat-ai-widget.vercel.app/webchat-widget.iife.min.js` | embed snippet origin (optional)                        | public     |
-| `NEXT_PUBLIC_WIDGET_API_URL`    | `https://webchat-ai-production-7e84.up.railway.app/api/widget/v1` | embed snippet origin (optional)                        | public     |
+| `NEXT_PUBLIC_WIDGET_API_URL`    | `https://webchat-ai-production-becf.up.railway.app/api/widget/v1` | embed snippet origin (optional)                        | public     |
 | `NEXT_PUBLIC_DASHBOARD_URL`     | `https://webchat-ai-dashboard.vercel.app`                         | embed snippet origin (optional)                        | public     |
-| `NEXT_PUBLIC_BACKEND_API_URL`   | `https://webchat-ai-production-7e84.up.railway.app`               | server rewrite target (optional; has built-in default) | public     |
+| `NEXT_PUBLIC_BACKEND_API_URL`   | `https://webchat-ai-production-becf.up.railway.app`               | server rewrite target (optional; has built-in default) | public     |
 
 Secrets (config -> masked, private): `GEMINI_API_KEY` (widget E2E),
 `SSH_HOST` / `SSH_USER` / `SSH_KEY` (optional self-hosting only).

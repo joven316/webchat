@@ -30,7 +30,7 @@ has run.
 | Attribute           | Required | Purpose                                                                                                                                                                                                                                                                                  |
 | ------------------- | -------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `data-widget-id`    | yes      | Public widget identifier (dashboard → widget page).                                                                                                                                                                                                                                      |
-| `data-api-base-url` | no       | Override the API origin, e.g. `https://webchat-ai-production-7e84.up.railway.app`. The SDK appends `/api/widget/v1`. A fully versioned base (`.../api/widget/v1`) is also accepted. Defaults to the build-time `VITE_WIDGET_API_BASE_URL`, falling back to same-origin `/api/widget/v1`. |
+| `data-api-base-url` | no       | Override the API origin, e.g. `https://webchat-ai-production-becf.up.railway.app`. The SDK appends `/api/widget/v1`. A fully versioned base (`.../api/widget/v1`) is also accepted. Defaults to the build-time `VITE_WIDGET_API_BASE_URL`, falling back to same-origin `/api/widget/v1`. |
 
 ### API base resolution
 
@@ -85,7 +85,7 @@ import { mount } from '@webchat/widget';
 
 const controller = mount({
   widgetId: 'your_widget_id',
-  apiBaseUrl: 'https://webchat-ai-production-7e84.up.railway.app/api/widget/v1',
+  apiBaseUrl: 'https://webchat-ai-production-becf.up.railway.app/api/widget/v1',
   host: document.querySelector('#my-chat'), // optional; a <webchat-widget> is appended otherwise
 });
 ```
@@ -192,7 +192,7 @@ The widget fetches from `apiBaseUrl` and opens the chat over SSE. If your site
 uses a Content-Security-Policy, allow the API origin:
 
 ```
-connect-src 'self' https://webchat-ai-production-7e84.up.railway.app;
+connect-src 'self' https://webchat-ai-production-becf.up.railway.app;
 ```
 
 A blocked `connect-src` surfaces as an error banner in the widget.

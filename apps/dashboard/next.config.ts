@@ -17,10 +17,10 @@ import type { NextConfig } from 'next';
  * *server* forwards to.
  *
  * Path mapping is 1:1 (no `/api/api`): the request `/api/health/live` rewrites
- * to `https://webchat-ai-production-7e84.up.railway.app/api/health/live`.
+ * to `https://webchat-ai-production-becf.up.railway.app/api/health/live`.
  */
 const BACKEND_ORIGIN =
-  process.env.NEXT_PUBLIC_BACKEND_API_URL ?? 'https://webchat-ai-production-7e84.up.railway.app';
+  process.env.NEXT_PUBLIC_BACKEND_API_URL ?? 'https://webchat-ai-production-becf.up.railway.app';
 
 /** The relative path prefix the Dashboard serves as its same-origin API. */
 const API_PATH_PREFIX = '/api';

@@ -9,8 +9,11 @@ ENV UV_COMPILE_BYTECODE=1 \
     UV_HTTP_TIMEOUT=600 \
     UV_CONCURRENT_DOWNLOADS=8
 
+ARG DEBIAN_SECURITY_REFRESH
+
 # Consume current Debian Bookworm security updates in the runtime image.
-RUN apt-get update \
+RUN echo "Debian security refresh: ${DEBIAN_SECURITY_REFRESH}" \
+    && apt-get update \
     && apt-get upgrade -y \
     && rm -rf /var/lib/apt/lists/*
 
